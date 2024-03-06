@@ -7,7 +7,7 @@ import TrendingGames from '../components/TrendingGames';
 import GameList from '../components/GameList';
 import {useNavigation} from  '@react-navigation/native';
 import Loading from './Loading';
-// import Sidebar from '../components/Sidebar';
+import Sidebar from '../components/Sidebar';
 import { fetchTopRatedGames, fetchTrendingGames,fetchUpcomingGames} from '../server/api';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -17,6 +17,7 @@ export default function HomeScreen() {
     const [upcoming, setUpcoming] = useState([]);
     const [topRated, setTopRated] = useState([]);
     const [loading,setLoading] = useState(true);
+    
     const navigation = useNavigation();
 
     
@@ -78,11 +79,11 @@ export default function HomeScreen() {
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 4 }}>
       
                     {/* Options  */}
-                    {/* <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-                      <Svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="1.5">
-                      <Path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
-                      </Svg>
-                      </TouchableOpacity> */}
+                    <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+                        <Svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="1.5">
+                        <Path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
+                        </Svg>
+                    </TouchableOpacity>
       
                         <Text style={{color: 'white', fontWeight: 'bold', fontSize: 30}}>
                         <Text style={styles.text}>G</Text>ames</Text>

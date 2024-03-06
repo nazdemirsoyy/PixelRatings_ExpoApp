@@ -161,7 +161,7 @@ const App = () => {
                                     const gameName = item.name;
                                     const gameImage = item.background_image;
                                     return (
-                                      <Pressable key={index} onPress={() => navigation.navigate('Game', { id: item.id })}>
+                                      <Pressable key={index} onPress={() => navigation.navigate('GameScreen', { id: item.id })}>
                                         <View style={{ marginBottom: 8, marginRight: 8, width: width * 0.44, height: height * 0.4 + 20 }}>
                                           <Image style={{ borderRadius: 12, width: '100%', height: height * 0.4 }} source={{ uri: gameImage }} />
                                           <Text style={{ color: 'white', marginLeft: 8, marginTop: 4 }}>{gameName.length > 22 ? gameName.slice(0, 22) + '...' : gameName}</Text>
