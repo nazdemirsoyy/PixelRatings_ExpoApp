@@ -8,7 +8,7 @@ var {width, height} = Dimensions.get('window');
 export default function TrendingGames({data}) {
   const navigation = useNavigation();
   const handleClick = (item) => {
-    navigation.navigate('Game', item);
+    navigation.navigate('GameScreen', item);
   }
 
   return (
