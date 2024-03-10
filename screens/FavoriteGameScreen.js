@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, FlatList,Alert,TouchableWithoutFeedback ,Dimensions,TouchableOpacity} from 'react-native';
-import { getFirestore, doc, getDoc, collection, getDocs } from 'firebase/firestore'; 
+import { getFirestore, doc, getDoc, collection, getDocs, onSnapshot } from 'firebase/firestore'; 
 import { fetchFavoriteGames, auth} from '../server/firebase'; 
 import { fetchGameDetails } from '../server/api';
 import {useNavigation} from  '@react-navigation/native';
@@ -14,41 +14,46 @@ export default function FavoriteGameScreen() {
   const [favoriteGames, setFavoriteGames] = useState([]);
   const navigation = useNavigation(); 
 
-  useEffect(() => {
+useEffect(() => {
+    let unsubscribe = () => {};
 
-    const fetchFavorites = async () => {
-      try {
-          if (!auth.currentUser) {
-              Alert.alert('Error', 'You need to be logged in to view favorite games.');
-              return;
-          }
-  
-          const userUid = auth.currentUser.uid;
-          const favoriteGameIds = await fetchFavoriteGames(userUid); // Assuming this fetches an array of game IDs
+    const setupFavoriteGamesListener = (userUid) => {
+      const userDocRef = doc(db, 'users', userUid);
+      
+      unsubscribe = onSnapshot(userDocRef, async (docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          const favoriteGameIds = userData.favoriteGames || [];
           const games = [];
-  
+
           for (let gameId of favoriteGameIds) {
-              const gameDetails = await fetchGameDetails(gameId);
-              games.push(gameDetails);
+            const gameDetails = await fetchGameDetails(gameId);
+            games.push(gameDetails);
           }
-  
+
           setFavoriteGames(games);
-      } catch (error) {
-          Alert.alert('Error', 'An error occurred while fetching favorite games.');
-          console.error("Error fetching favorite games:", error);
-      }
-  };
+        } else {
+          console.warn("User document doesn't exist");
+          setFavoriteGames([]);
+        }
+      }, (error) => {
+        console.error("Error listening to favorite games:", error);
+      });
+    };
 
-    fetchFavorites();
-    
+    if (auth.currentUser) {
+      setupFavoriteGamesListener(auth.currentUser.uid);
+    } else {
+      Alert.alert('Error', 'You need to be logged in to view favorite games.');
+    }
+
+    return () => unsubscribe(); 
   }, []);
-
-
 
 
 return (
   
-  <View style={{ padding: 16, backgroundColor: '#151b1f', flex: 1 }}>
+  <View style={{ padding: 16, backgroundColor: '#151b1f', flex: 1, paddingTop:0 }}>
     {/* Back Button*/}
     <TouchableOpacity onPress ={() => navigation.navigate('Profile')}style ={ {borderRadius: 12, padding: 4}}>
     <Svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="1.5">

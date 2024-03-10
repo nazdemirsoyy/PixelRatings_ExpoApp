@@ -2,7 +2,7 @@
 // import { launchImageLibrary } from 'react-native-image-picker';
 import Svg, { Path } from 'react-native-svg';
 import React, { useState,useEffect } from 'react';
-import { Modal ,View, Text, TextInput, Button, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Modal ,View, Text, TextInput, Button, Image, StyleSheet, TouchableOpacity,Alert } from 'react-native';
 import { getFirestore, doc, getDoc,setDoc,getStorage, ref, uploadBytes, getDownloadURL  } from 'firebase/firestore';
 import { auth } from '../server/firebase'; 
 import { getAuth, signOut } from "firebase/auth";
@@ -34,6 +34,7 @@ const saveUserData = async (name, surname, email, avatar) => {
       email: email,
       avatar: avatar 
     }, { merge: true });  // This ensures it updates the fields and doesn't overwrite the whole document
+    Alert.alert("User profile updated!");
     console.log("User profile updated!");
   } catch (error) {
     console.error("Error updating profile: ", error.message);
@@ -58,7 +59,7 @@ const handleLogOff = () => {
 
 const UserProfile = () => {
   const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
+  // const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [avatar, setAvatar] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -136,7 +137,7 @@ const UserProfile = () => {
     fetchUserData(uid).then(userData => {
       if (userData) {
         setName(userData.name || '');
-        setSurname(userData.surname || '');
+        //setSurname(userData.surname || '');
         setEmail(userData.email || '');
         setAvatar(userData.avatar || null);
       }
@@ -186,12 +187,12 @@ const UserProfile = () => {
         onChangeText={setName}
       />
 
-      <TextInput
+      {/* <TextInput
         style={styles.input}
         placeholder="Last Name"
         value={surname}
         onChangeText={setSurname}
-      />
+      /> */}
 
       <TextInput
         style={styles.input}
@@ -231,6 +232,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     backgroundColor: '#151b1f',
+    paddingTop:0,
   },
   header:{
     width: '100%', // Ensure the header container spans the full width

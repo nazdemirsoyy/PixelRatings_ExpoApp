@@ -169,6 +169,34 @@ export async function fetchRatingsFromUser(userUid) {
   }
 }
 
+export const deleteUserComment = async (userUid, gameId) => {
+  const userRef = doc(db, 'users', userUid);
+  try {
+    // Get the current user's document
+    const userDoc = await getDoc(userRef);
+    if (!userDoc.exists()) {
+      console.error("User document doesn't exist");
+      return { success: false, error: "User document doesn't exist" };
+    }
+
+    // Extract the ratings array from the user's document
+    const userData = userDoc.data();
+    const ratings = userData.ratings || [];
+
+    // Filter out the rating for the specified game
+    const updatedRatings = ratings.filter(rating => rating.gameId !== gameId);
+
+    // Update the user's document with the new ratings array
+    await updateDoc(userRef, {
+      ratings: updatedRatings
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting user comment:", error);
+    return { success: false, error };
+  }
+};
 
 
 export { createUserAndFavoriteList };

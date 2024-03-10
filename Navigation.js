@@ -11,10 +11,11 @@ import GameScreen from './screens/GameScreen';
 import Login from './screens/Login';
 import Register from './screens/Register';
 import ForgotPassword from './screens/ForgotPassword';
-import Profile from './screens/Profile';
+import UserProfile from './screens/UserProfile';
 import Sidebar from './components/Sidebar';
 import FavoriteGameScreen from './screens/FavoriteGameScreen';
 import UserComment from './screens/UserComment';
+import PublicProfile from './screens/PublicProfile';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -29,7 +30,7 @@ function MainStackNavigator() {
        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
        <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
-       <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+       <Stack.Screen name="UserProfile" component={UserProfile} options={{ headerShown: false }} />
        <Stack.Screen name="FavoriteGameScreen" component={FavoriteGameScreen} options={{ headerShown: false }} />
        <Stack.Screen name="UserComment" component={UserComment} options={{ headerShown: false }} />
     </Stack.Navigator>
@@ -42,36 +43,12 @@ function SidebarDrawer(props) {
   return (
     <Drawer.Navigator drawerContent={drawerProps => <Sidebar {...drawerProps} isLoggedIn={isLoggedIn} />}>
       <Drawer.Screen name="MainStack" component={MainStackNavigator} options={{ headerShown: false }} />
-      <Drawer.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>
+      <Drawer.Screen name="Profile" component={PublicProfile} options={{ headerShown: false }}/>
+      <Drawer.Screen name="Settings" component={UserProfile} options={{ headerShown: false }}/>
       {/* Add more drawer screens if needed */}
     </Drawer.Navigator>
   );
 }
-
-// function Navigation() {
-//   return (
-//     <NavigationContainer>
-//       <Stack.Navigator initialRouteName="Login">
-//       <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-//       <Stack.Screen name="AllGamesScreen" component={AllGamesScreen} options={{ headerShown: false }} />
-//       <Stack.Screen name="SearchScreen" component={SearchScreen} options={{ headerShown: false }} />
-//       <Stack.Screen name="GameScreen" component={GameScreen} options={{ headerShown: false }} />
-//       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-//       <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-//       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
-//       <Stack.Screen name="SidebarDrawer" component={Sidebar} options={{ headerShown: false }} />
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   );
-// }
-
-// function Navigation() {
-//   return (
-//     <NavigationContainer ref={navigationRef}>
-//       <MainDrawerNavigator />
-//     </NavigationContainer>
-//   );
-// }
 
 
 export default function Navigation() {
@@ -111,11 +88,15 @@ export default function Navigation() {
       />
       <Drawer.Screen 
         name="Profile" 
-        component={Profile} 
+        component={PublicProfile} 
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen 
+        name="Settings" 
+        component={UserProfile} 
         options={{ headerShown: false }}
       />
     </Drawer.Navigator>
-
     </NavigationContainer>
   );
 }

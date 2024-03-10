@@ -18,7 +18,7 @@ export default function AllGamesScreen({ route }) {
   }, []);
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#151b1f' }}>
+    <View style={{ flex: 1, backgroundColor: '#151b1f' , paddingTop:0}}>
         {/* Back Button*/}
         <TouchableOpacity onPress ={() => navigation.goBack()}style ={ {borderRadius: 12, padding: 4, marginTop:30, marginBottom:30}}>
                 <Svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="1.5">

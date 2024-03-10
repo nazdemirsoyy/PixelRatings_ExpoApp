@@ -1,5 +1,5 @@
 import { View, Text, TouchableWithoutFeedback, Dimensions, Image } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import Carousel from 'react-native-snap-carousel';
 import {useNavigation} from  '@react-navigation/native'
 
@@ -7,8 +7,18 @@ var {width, height} = Dimensions.get('window');
 
 export default function TrendingGames({data}) {
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(!data); // Assuming 'data' is passed as a prop
+
   const handleClick = (item) => {
     navigation.navigate('GameScreen', item);
+  }
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
   }
 
   return (

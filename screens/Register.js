@@ -19,7 +19,7 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
+ //const [surname, setSurname] = useState('');
   const navigation = useNavigation();
 
   const handleRegister = () => {
@@ -43,22 +43,22 @@ export default function Register() {
   return (
     <ImageBackground
       style={styles.background}
-      //source={require('../assets/bck_image.jpg')}
+      source={require('../assets/bck6.jpg')}
     >
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Register</Text>
         <TextInput
           style={styles.input}
-          placeholder="Name"
+          placeholder="Username"
           value={name}
           onChangeText={setName}
         />
-        <TextInput
+        {/* <TextInput
           style={styles.input}
           placeholder="Surname"
           value={surname}
           onChangeText={setSurname}
-        />
+        /> */}
         <TextInput
           style={styles.input}
           placeholder="E-mail"
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.7)',
     marginHorizontal: 20,
     borderRadius: 10,
+    paddingTop:0,
   },
   title: {
     fontSize: 28,
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   button: {
-    backgroundColor: '#2E8B57',
+    backgroundColor: '#179000',
     padding: 10,
     borderRadius: 5,
     justifyContent: 'center',

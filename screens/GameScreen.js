@@ -1,4 +1,4 @@
-import { View, Text, ScrollView,TouchableOpacity,Dimensions,Image,TextInput,Button } from 'react-native'
+import { View, Text, ScrollView,TouchableOpacity,Dimensions,Image,TextInput,Button,Alert,ActivityIndicator  } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useRoute } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,9 +8,9 @@ import {useNavigation} from  '@react-navigation/native';
 import {LinearGradient} from  'expo-linear-gradient';
 import Loading from './Loading';
 import {fetchGameDetails}  from '../server/api';
-//import { auth,db,addGameToFavorites,removeGameFromFavorites,isGameFavorited } from '../server/firebase';
-//import { doc,Firestore, updateDoc, arrayUnion, serverTimestamp} from 'firebase/firestore';
-// import { Rating } from 'react-native-ratings';
+import { auth,db,addGameToFavorites,removeGameFromFavorites,isGameFavorited } from '../server/firebase';
+import { doc,Firestore, updateDoc, arrayUnion, serverTimestamp} from 'firebase/firestore';
+import { Rating } from 'react-native-ratings';
 
 var {width, height} = Dimensions.get('window');
 
@@ -24,29 +24,29 @@ const removeHTMLTags = (str) => {
 export default function GameScreen() {
 
 // Favorite
-// const toggleFavorite = async (newFavoriteStatus) => {
-//   try {
-//     const userUid = auth.currentUser.uid; // Retrieve the current user's UID
-//     const gameId = item.id;
+const toggleFavorite = async (newFavoriteStatus) => {
+  try {
+    const userUid = auth.currentUser.uid; // Retrieve the current user's UID
+    const gameId = item.id;
 
 
-//     // Log for debugging purposes.
-//     //console.log("toggleFavorite called with isFavorite:", newFavoriteStatus);
-//     //console.log("User UID:", userUid);
-//     //console.log("Item ID:", item.id);
+    // Log for debugging purposes.
+    //console.log("toggleFavorite called with isFavorite:", newFavoriteStatus);
+    //console.log("User UID:", userUid);
+    //console.log("Item ID:", item.id);
 
-//     if (newFavoriteStatus) {
-//       await addGameToFavorites(userUid, item.id);
-//     } else {
-//       await removeGameFromFavorites(userUid, item.id);
-//     }
+    if (newFavoriteStatus) {
+      await addGameToFavorites(userUid, item.id);
+    } else {
+      await removeGameFromFavorites(userUid, item.id);
+    }
 
-//     // Set the new favorite status in state.
-//     setIsFavorite(newFavoriteStatus);
-//   } catch (error) {
-//     console.error("Error toggling favorite:", error);
-//   }
-// };
+    // Set the new favorite status in state.
+    setIsFavorite(newFavoriteStatus);
+  } catch (error) {
+    console.error("Error toggling favorite:", error);
+  }
+};
 
   const [gameDetails, setGameDetails] = useState({
     name: '',
@@ -64,36 +64,36 @@ export default function GameScreen() {
     const [comment, setComment] = useState('');
 
     //Submit function
-//     const submitRatingAndComment = async ( rating, comment) => {
-//       const userUid = auth.currentUser.uid; // Retrieve the current user's UID
-//       const userRef = doc(db, 'users', userUid);
-//       const gameId = item.id;
+    const submitRatingAndComment = async ( rating, comment) => {
+      const userUid = auth.currentUser.uid; // Retrieve the current user's UID
+      const userRef = doc(db, 'users', userUid);
+      const gameId = item.id;
     
-//       // Log values to debug
-//       //console.log(`SUBMITTING rating/comment:`, { gameId, rating, comment, timestamp: serverTimestamp() });
+      // Log values to debug
+      //console.log(`SUBMITTING rating/comment:`, { gameId, rating, comment, timestamp: serverTimestamp() });
 
-//       // Check if any value is undefined
-//       if (typeof gameId === 'undefined' || typeof rating === 'undefined' || typeof comment === 'undefined') {
-//         console.error('One of the values is undefined', { gameId, rating, comment });
-//         return; // Stop execution if any value is undefined
-//       }
+      // Check if any value is undefined
+      if (typeof gameId === 'undefined' || typeof rating === 'undefined' || typeof comment === 'undefined') {
+        console.error('One of the values is undefined', { gameId, rating, comment });
+        return; // Stop execution if any value is undefined
+      }
 
-//       // Prepare the rating and comment data to be stored in Firestore
-//       try {
-//         await updateDoc(userRef, {
-//           ratings: arrayUnion({
-//             gameId,
-//             rating,
-//             comment,
-//             timestamp: new Date() 
-//           })
-//         });
+      // Prepare the rating and comment data to be stored in Firestore
+      try {
+        await updateDoc(userRef, {
+          ratings: arrayUnion({
+            gameId,
+            rating,
+            comment,
+            timestamp: new Date() 
+          })
+        });
     
-//         console.log('Rating and comment submitted successfully');
-//   } catch (error) {
-//     console.error('Error submitting rating and comment:', error);
-//   }
-// };
+        Alert.alert('Rating and Comment submitted successfully!');
+  } catch (error) {
+    console.error('Error submitting rating and comment:', error);
+  }
+};
     
 
       useEffect(() => {
@@ -129,7 +129,9 @@ export default function GameScreen() {
     
     
   return (
-  <ScrollView contentContainerStyle ={{paddingBottom:20,minHeight:height, backgroundColor:'#151b1f'}}>
+
+    
+  <ScrollView contentContainerStyle ={{paddingBottom:20,minHeight:height, backgroundColor:'#151b1f',paddingTop:0}}>
     
     <View style={{ width: '100%' }}>
         <SafeAreaView style={{position: 'absolute', zIndex: 20, width: '100%', flexDirection: 'row', justifyContent: 'space-between',alignItems: 'center',paddingHorizontal: 16}}>
@@ -183,9 +185,7 @@ export default function GameScreen() {
                     
                 </View>
               )
-            }
-
-        
+            }  
     </View>
       
       {/* Game Details View */}
@@ -225,7 +225,7 @@ export default function GameScreen() {
       </View>
       
       {/* Star */}
-      {/* <View style={{ alignItems: 'center', marginVertical: 20 }}>
+      <View style={{ alignItems: 'center', marginVertical: 20 }}>
       <Text style={{ color: 'grey', marginTop: 10 }}>Rate This Game</Text>
       <View style={{ backgroundColor: '#151b1f', padding: 10, borderRadius: 10 }}>
         <Rating
@@ -236,7 +236,7 @@ export default function GameScreen() {
         />
     </View>
           
-      </View> */}
+      </View>
 
       {/* Comment Box */}
       <View style={{ paddingHorizontal: 16, marginBottom: 20 }}>
@@ -254,7 +254,7 @@ export default function GameScreen() {
       <View style={{ paddingHorizontal: 16, marginBottom: 20 }}>
         <Button
           title="Submit"
-          //onPress={() => submitRatingAndComment(rating, comment)}
+          onPress={() => submitRatingAndComment(rating, comment)}
         />
       </View>
 

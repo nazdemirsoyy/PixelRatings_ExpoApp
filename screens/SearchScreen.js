@@ -194,6 +194,7 @@ const App = () => {
     paddingBottom: 20,
     backgroundColor: '#151b1f',
     //minHeight: height,
+    paddingTop:0,
     },
     fullScreenContainer: {
       flex: 1, // Make sure it takes up the entire space

@@ -9,14 +9,13 @@ import {
   Alert
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import {auth} from '../server/firebase'
+import {auth} from '../server/firebase';
 import { getAuth, signInWithEmailAndPassword,sendPasswordResetEmail } from "firebase/auth";
 
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
   const navigation = useNavigation();
 
   const handleLogin = () => {
@@ -24,14 +23,12 @@ export default function Login() {
     
     signInWithEmailAndPassword(authInstance, username, password)
       .then((userCredential) => {
-        // Successfully logged in
-        console.log("Logged in successfully!");
-        // Navigate to HomeScreen
+        //console.log("Logged in successfully!");
         navigation.navigate('HomeScreen');
       })
       .catch((error) => {
-        console.error("Error logging in: ", error);
-        // Handle the error (maybe show a message to the user)
+        //console.error("Error logging in: ", error);
+        Alert.alert("Wrong Password or Username!");
       });
   };
   
@@ -39,58 +36,79 @@ const handleRegister = () => {
     navigation.navigate('Register');  
 };
 
-
-  
 const handleForgotPassword = () => {
   navigation.navigate('ForgotPassword');  
 };
 
-
   return (
-    <ImageBackground
-      style={styles.background}
-      //source={require('../assets/bck_image.jpg')}
-    >
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome</Text>
+    <View style={styles.container}>
+        <ImageBackground
+          style={styles.background}
+          source={require('../assets/bck6.jpg')}
+        >
+        <View style={styles.loginContainer}>
+        <Text style={styles.welcomeText}>Welcome</Text>
         <TextInput
           style={styles.input}
           placeholder="E-mail"
+          placeholderTextColor="#666"
           value={username}
           onChangeText={setUsername}
+          keyboardType="email-address"
         />
         <TextInput
           style={styles.input}
           placeholder="Password"
+          placeholderTextColor="#666"
           secureTextEntry={true}
           value={password}
           onChangeText={setPassword}
         />
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleRegister}>
-          <Text style={styles.buttonText}>Register</Text>
-        </TouchableOpacity>
-      <TouchableOpacity onPress={handleForgotPassword}>
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-      </TouchableOpacity>
+          <View style={styles.optionsContainer}>
+            <TouchableOpacity onPress={handleForgotPassword}>
+              <Text style={styles.optionText}>Forgot Password</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={handleRegister}>
+              <Text style={styles.optionText}>Register</Text>
+            </TouchableOpacity>
+          </View>
       </View>
     </ImageBackground>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center'
-  },
   container: {
-    padding: 20,
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    marginHorizontal: 20,
+    // padding: 20,
+    // backgroundColor: 'rgba(0,0,0,0.7)',
+    // marginHorizontal: 20,
+    // borderRadius: 10,
+    paddingTop:0,
+    flex:1,
+  },background: {
+    flex: 1,
+    //resizeMode: 'cover',
+    justifyContent: 'center',
+  
+  },
+  loginContainer: {
+    marginHorizontal: 35,
+    paddingVertical: 45,
+    paddingHorizontal: 20,
+    backgroundColor: 'rgba(0,0,0,0.8)',
     borderRadius: 10,
+  },
+  welcomeText: {
+    fontSize: 24,
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 15,
   },
   title: {
     fontSize: 28,
@@ -100,18 +118,32 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   input: {
-    marginBottom: 10,
-    padding: 10,
-    backgroundColor: '#FFF',
+    backgroundColor: '#fff',
     borderRadius: 5,
+    padding: 15,
+    marginBottom: 20,
+    fontSize: 16,
   },
-  button: {
-    backgroundColor: '#2E8B57',
-    padding: 10,
+  loginButton: {
+    backgroundColor: '#179000',
+    paddingVertical: 15,
     borderRadius: 5,
-    justifyContent: 'center',
     alignItems: 'center',
-    marginTop:5,
+    marginBottom: 20,
+  },
+  loginButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  optionsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  optionText: {
+    color: '#fff',
+    textDecorationLine: 'underline',
   },
   buttonText: {
     color: '#FFF',

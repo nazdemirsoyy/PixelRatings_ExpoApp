@@ -35,7 +35,7 @@ export default function ForgotPassword() {
   return (
     <ImageBackground
       style={styles.background}
-      //source={require('../assets/bck_image.jpg')}
+      source={require('../assets/bck6.jpg')}
     >
       <View style={styles.container}>
         <Text style={styles.title}>Reset Password</Text>
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.7)',
     marginHorizontal: 20,
     borderRadius: 10,
+    paddingTop:0
   },
   title: {
     fontSize: 28,
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   button: {
-    backgroundColor: '#2E8B57',
+    backgroundColor: '#179000',
     padding: 10,
     borderRadius: 5,
     justifyContent: 'center',
