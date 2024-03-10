@@ -1,4 +1,4 @@
-import { View, Text, ScrollView,TouchableOpacity,Dimensions,Image,TextInput,Button,Alert,ActivityIndicator  } from 'react-native'
+import { View, Text, ScrollView,TouchableOpacity,Dimensions,Image,TextInput,Button,Alert,ActivityIndicator,StyleSheet  } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useRoute } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,6 +11,7 @@ import {fetchGameDetails}  from '../server/api';
 import { auth,db,addGameToFavorites,removeGameFromFavorites,isGameFavorited } from '../server/firebase';
 import { doc,Firestore, updateDoc, arrayUnion, serverTimestamp} from 'firebase/firestore';
 import { Rating } from 'react-native-ratings';
+import { MaterialIcons } from '@expo/vector-icons';
 
 var {width, height} = Dimensions.get('window');
 
@@ -60,7 +61,7 @@ const toggleFavorite = async (newFavoriteStatus) => {
     const [isFavorite, setIsFavorite] = useState(false);
     const{params: item} = useRoute();
     const [loading,setLoading] = useState(false);
-    const [rating, setRating] = useState(0);
+    const [rating, setRating] = useState(null);
     const [comment, setComment] = useState('');
 
     //Submit function
@@ -225,7 +226,7 @@ const toggleFavorite = async (newFavoriteStatus) => {
       </View>
       
       {/* Star */}
-      <View style={{ alignItems: 'center', marginVertical: 20 }}>
+      {/* <View style={{ alignItems: 'center', marginVertical: 20 }}>
       <Text style={{ color: 'grey', marginTop: 10 }}>Rate This Game</Text>
       <View style={{ backgroundColor: '#151b1f', padding: 10, borderRadius: 10 }}>
         <Rating
@@ -234,8 +235,28 @@ const toggleFavorite = async (newFavoriteStatus) => {
             imageSize={30}
             onFinishRating={(rating) => setRating(rating)}
         />
-    </View>
-          
+        </View>    
+      </View> */}
+      
+      <View style={{ alignItems: 'center', marginVertical: 20 }}>
+      <Text style={{ color: 'grey', marginTop: 10 }}>Rate This Game</Text>
+      <View style={{ backgroundColor: '#151b1f', padding: 10, borderRadius: 10 ,flexDirection: 'row',}}>
+      <TouchableOpacity onPress={() => setRating(1)}>
+            <MaterialIcons name={rating >= 1 ? 'star' : 'star-border'} size={32} style={{ color: rating >= 1 ? '#ffb300' : '#aaa' }}/>
+      </TouchableOpacity>
+          <TouchableOpacity onPress={() => setRating(2)}>
+            <MaterialIcons name={rating >= 2 ? 'star' : 'star-border'} size={32} style={{ color: rating >= 1 ? '#ffb300' : '#aaa' }}/>
+      </TouchableOpacity>
+          <TouchableOpacity onPress={() => setRating(3)}>
+            <MaterialIcons name={rating >= 3 ? 'star' : 'star-border'} size={32} style={{ color: rating >= 1 ? '#ffb300' : '#aaa' }}/>
+      </TouchableOpacity>
+          <TouchableOpacity onPress={() => setRating(4)}>
+            <MaterialIcons name={rating >= 4 ? 'star' : 'star-border'} size={32} style={{ color: rating >= 1 ? '#ffb300' : '#aaa' }}/>
+      </TouchableOpacity>
+          <TouchableOpacity onPress={() => setRating(5)}>
+            <MaterialIcons name={rating >= 5 ? 'star' : 'star-border'} size={32} style={{ color: rating >= 1 ? '#ffb300' : '#aaa' }}/>
+      </TouchableOpacity>
+        </View>
       </View>
 
       {/* Comment Box */}
@@ -263,3 +284,4 @@ const toggleFavorite = async (newFavoriteStatus) => {
     </ScrollView>
   )
 }
+

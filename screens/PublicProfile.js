@@ -6,6 +6,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { fetchGameDetails } from '../server/api';
 import { getFirestore, doc, onSnapshot,getDoc } from 'firebase/firestore'; 
 import Svg, { Path } from 'react-native-svg';
+import { EvilIcons } from '@expo/vector-icons'; 
 
 const db = getFirestore();
 var { width, height } = Dimensions.get('window');
@@ -16,6 +17,7 @@ export default function PublicProfile({ userId }) {
     const [favoriteGames, setFavoriteGames] = useState([]);
     const [gamesWithComments, setGamesWithComments] = useState([]);
     const [userName, setUserName] = useState('');
+    const [avatar, setAvatar] = useState('');
 
     const [refreshing, setRefreshing] = useState(false);
 
@@ -85,7 +87,10 @@ const formatDate = (timestamp) => {
 // const handleClick = (gameID) => {
 //     navigation.navigate('GameScreen', { gameID: game.id });
 //     };
-    
+  
+const handleNavigateToSettings = () => {
+  navigation.navigate('UserProfile');
+};
 
 //For username
 const fetchUserData = async (uid) => {
@@ -139,12 +144,26 @@ const onRefresh = React.useCallback(() => {
       onRefresh={onRefresh}
     />}>
      {/* Back Button*/}
-        <TouchableOpacity onPress ={() => navigation.navigate('HomeScreen')}style ={ {borderRadius: 12, padding: 4}}>
+     <View style={styles.header}>
+        <TouchableOpacity onPress ={() => navigation.navigate('HomeScreen')}style ={ {borderRadius: 12, padding: 4, paddingLeft:0}}>
         <Svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="1.5">
         <Path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </Svg>
         </TouchableOpacity>
-        <View style={styles.header}>
+
+        <TouchableOpacity onPress={handleNavigateToSettings} style={styles.settingsButton}>
+          <EvilIcons  name="gear" size={30} color="white" />
+        </TouchableOpacity>
+      </View>
+
+      <View style = {styles.userInfoPanel}>
+        <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.avatarPlaceholder}>
+          {avatar ? (
+            <Image source={{ uri: avatar }} style={styles.avatar} />
+          ) : (
+            <EvilIcons name="image" size={100} color="#aaa" /> // Placeholder icon when no image is present
+          )}
+        </TouchableOpacity>
             <Text style={styles.username}>{userName}</Text>
         </View>
       
@@ -215,15 +234,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#151b1f',
   },
   header: {
-    alignItems: 'center', // This centers USERNAME horizontally
-    justifyContent: 'center', // This centers USERNAME vertically in the header
-    paddingVertical: 20, // Vertical padding for the header
-    backgroundColor: '#151b1f', // Background color for the header
+    flexDirection: 'row', // Aligns items horizontally
+    justifyContent: 'space-between', // Places one item on each end
+    alignItems: 'center', // Centers items vertically
+    width: '100%', // Ensures header spans full width
+    paddingTop: 16, // Space from the top of the container
+    paddingHorizontal: 16, // Space from the sides of the container
   },
   username: {
     fontSize: 24,
     fontWeight: 'bold',
     color: 'white',
+    marginTop: 20, // Provide some space from the top elements
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -293,4 +315,32 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 5,
   },
+  settingsButton: {
+    position: 'absolute', // Use absolute positioning
+    top: 16, // Distance from the top of the header
+    right: 16, // Distance from the right edge of the header
+    padding: 8, // Padding for the touchable area
+  },
+  userInfoPanel: {
+    alignItems: 'center', // Centers items horizontally in the container
+    justifyContent: 'center', // Centers items vertically in the container
+    paddingVertical: 20, // Adds padding at the top and bottom
+  },
+  avatarPlaceholder: {
+    width: 100, // Adjust width if needed
+    height: 100, // Adjust height if needed
+    borderRadius: 50, // Half of width/height to make it round
+    backgroundColor: '#e0e0e0', // Placeholder color
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden', // To make sure the image stays within the bounds
+    marginTop: 20, // Space from the username or top elements
+    marginBottom: 10,
+  },
+  avatar: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 60,
+  },
+
 });

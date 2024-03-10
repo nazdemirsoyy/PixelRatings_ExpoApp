@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {auth} from '../server/firebase';
-import { getAuth, signInWithEmailAndPassword,sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 
 export default function Login() {
@@ -39,6 +39,23 @@ const handleRegister = () => {
 const handleForgotPassword = () => {
   navigation.navigate('ForgotPassword');  
 };
+
+useEffect(() => {
+  const authInstance = getAuth();
+
+  // This listener automatically checks whether the user is already logged in or not.
+  const unsubscribe = authInstance.onAuthStateChanged(user => {
+    if (user) {
+      // User is signed in, navigate to the HomeScreen.
+      navigation.navigate('HomeScreen');
+    }
+    // If user is not signed in, stay on the Login screen.
+    // You don't have to do anything else here.
+  });
+
+  // Cleanup the listener when the component unmounts.
+  return unsubscribe;
+}, []);
 
   return (
     <View style={styles.container}>
