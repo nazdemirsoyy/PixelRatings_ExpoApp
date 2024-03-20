@@ -44,8 +44,8 @@ function SidebarDrawer(props) {
     <Drawer.Navigator drawerContent={drawerProps => <Sidebar {...drawerProps} isLoggedIn={isLoggedIn} />}>
       <Drawer.Screen name="MainStack" component={MainStackNavigator} options={{ headerShown: false }} />
       <Drawer.Screen name="Profile" component={PublicProfile} options={{ headerShown: false }}/>
-      <Drawer.Screen name="Settings" component={UserProfile} options={{ headerShown: false }}/>
-      {/* Add more drawer screens if needed */}
+      {/* <Drawer.Screen name="Settings" component={UserProfile} options={{ headerShown: false }}/> */}
+      
     </Drawer.Navigator>
   );
 }

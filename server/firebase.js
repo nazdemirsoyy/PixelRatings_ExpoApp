@@ -1,10 +1,10 @@
 import firebase from "firebase/app";
 import { initializeApp } from "firebase/app"
-import { getAuth,getReactNativePersistence,initializeAuth } from "firebase/auth";
+import { getAuth, initializeAuth, getReactNativePersistence }  from "firebase/auth";
 import { getFirestore, doc, getDoc,setDoc, deleteDoc, collection, getDocs,query, where , updateDoc,addDoc} from 'firebase/firestore';
 import { arrayUnion, arrayRemove } from 'firebase/firestore';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -19,7 +19,10 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const firebase_app = initializeApp(firebaseConfig);
-export const auth = getAuth(firebase_app)
+//export const auth = getAuth(firebase_app)
+export const auth = initializeAuth(firebase_app, {
+  persistence: getReactNativePersistence(AsyncStorage)
+});
 export const db = getFirestore(firebase_app)
 collection(db, 'FavoriteGameList');
 

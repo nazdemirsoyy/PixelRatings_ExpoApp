@@ -54,6 +54,7 @@ useEffect(() => {
 return (
   
   <View style={{ padding: 16, backgroundColor: '#151b1f', flex: 1, paddingTop:0 }}>
+  <View style ={{paddingTop:16,}}>
     {/* Back Button*/}
     <TouchableOpacity onPress ={() => navigation.navigate('Profile')}style ={ {borderRadius: 12, padding: 4}}>
     <Svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="1.5">
@@ -88,6 +89,7 @@ return (
 />
 
     }
+    </View>
   </View>
 );
 

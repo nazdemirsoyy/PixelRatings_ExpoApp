@@ -20,14 +20,8 @@ export default function Sidebar({ navigation, isLoggedIn }) {
        <TouchableOpacity onPress={handleProfileNavigation}>
         <Text style={styles.option}>Profile</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('UserProfile')}>
+      {/* <TouchableOpacity onPress={() => navigation.navigate('UserProfile')}>
         <Text style={styles.option}>Settings</Text>
-      </TouchableOpacity>
-      {/* <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
-        <Text style={styles.option}>Settings</Text>
-      </TouchableOpacity> */}
-      {/* <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
-        <Text style={styles.option}>Login</Text>
       </TouchableOpacity> */}
     </View>
   );

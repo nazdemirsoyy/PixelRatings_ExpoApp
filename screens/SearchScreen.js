@@ -43,7 +43,7 @@ const App = () => {
     const loadGenres = async () => {
       try {
         const genresData = await fetchGenres();
-        console.log('Fetched genres:', genresData); // Check the fetched data
+        //console.log('Fetched genres:', genresData); // Check the fetched data
         setGenres(genresData);
       } catch (error) {
         console.error("Failed to load genres", error);
@@ -78,12 +78,12 @@ const App = () => {
     return (
       <SafeAreaView style={styles.safeAreaView}>
        <View style={styles.fullScreenContainer}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 16, marginLeft:8 ,marginTop: 25}}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 16, marginLeft:8 ,marginTop: 25, marginBottom:16,}}>
         {/* Back Button*/}
-          <View style={{ width: 40, justifyContent: 'center', alignItems: 'center',marginTop:16 }}>         
+          <View style={{ width: 40, justifyContent: 'center', alignItems: 'center',marginTop:16, }}>         
               <TouchableOpacity onPress ={() => navigation.goBack()}style ={ {borderRadius: 12, padding: 4}}>
                       <Svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="1.5">
-                      <Path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                      <Path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                       </Svg>
               </TouchableOpacity>
             </View>

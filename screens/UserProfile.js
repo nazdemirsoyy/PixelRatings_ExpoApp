@@ -24,13 +24,12 @@ const fetchUserData = async (uid) => {
   }
 };
 
-const saveUserData = async (name, surname, email, avatar) => {
+const saveUserData = async (name, email, avatar) => {
   const userRef = doc(db, 'users', auth.currentUser.uid);
 
   try {
     await setDoc(userRef, {
       name: name,
-      surname: surname,
       email: email,
       avatar: avatar 
     }, { merge: true });  // This ensures it updates the fields and doesn't overwrite the whole document
@@ -147,7 +146,7 @@ const UserProfile = () => {
   return (
     <View style={styles.container}>
     <View style ={styles.header}>
-     <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}style={styles.backButton}>
+     <TouchableOpacity onPress={() => navigation.navigate('Profile')}style={styles.backButton}>
             <Svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="1.5">
               <Path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </Svg>
@@ -212,7 +211,7 @@ const UserProfile = () => {
 
       <View style={{ margin: 10 }}>
         <Button title="Save Profile" onPress={() => {
-          saveUserData(name, surname, email, avatar);
+          saveUserData(name, email, avatar);
           console.log("User saved");
         }}/>
       </View>
@@ -240,6 +239,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start', // Aligns children to the start of the cross axis (left)
     alignItems: 'center', // Aligns children to the center of the cross axis (vertically)
     marginBottom: 10,
+    paddingTop:16,
   },
   backButton:{
     alignSelf: 'flex-start'

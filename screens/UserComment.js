@@ -163,6 +163,7 @@ export default function UserComment() {
       justifyContent: 'space-between',
       alignItems: 'center',
       marginBottom: 10,
+      paddingTop: 16,
     },
     orderButton: {
       backgroundColor: '#eab308',

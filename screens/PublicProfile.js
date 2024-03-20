@@ -157,13 +157,13 @@ const onRefresh = React.useCallback(() => {
       </View>
 
       <View style = {styles.userInfoPanel}>
-        <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.avatarPlaceholder}>
+        <View onPress={() => setModalVisible(true)} style={styles.avatarPlaceholder}>
           {avatar ? (
             <Image source={{ uri: avatar }} style={styles.avatar} />
           ) : (
             <EvilIcons name="image" size={100} color="#aaa" /> // Placeholder icon when no image is present
           )}
-        </TouchableOpacity>
+        </View>
             <Text style={styles.username}>{userName}</Text>
         </View>
       

@@ -74,7 +74,7 @@ export default function HomeScreen() {
       return (
         <View style= {{flex:1, backgroundColor:'#151b1f', paddingTop:0}}>
           {/* SideBar  */}
-          <SafeAreaView style = {{marginBottom: 8}}>
+          <SafeAreaView style = {{marginBottom: 8, paddingTop:16}}>
             <StatusBar barStyle="light-content" />
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 4 }}>
       
